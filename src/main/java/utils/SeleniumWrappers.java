@@ -5,35 +5,32 @@ import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.WebDriver;
 
 public class SeleniumWrappers extends BaseTest {
-	
+
 	public SeleniumWrappers(WebDriver driver) {
 		this.driver = driver;
-		
 	}
-
+	
 	
 	//webelement.click();
 	
-	public void click(By locator) {
-		System.out.println("Called method<click> on  " + locator);
+	public void click(WebElement element) {
+		System.out.println("Called method<click> on  " );
 		try {
-			//WebElement element = driver.findElement(locator);
 			WebDriverWait wait =  new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.elementToBeClickable(locator));
-			returnWebElement(locator).click();
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+			element.click();
 			
 		}catch(StaleElementReferenceException e) {
-	
-			//WebElement element = driver.findElement(locator);
+			
 			WebDriverWait wait =  new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.stalenessOf(returnWebElement(locator)));
-			returnWebElement(locator).click();
+			wait.until(ExpectedConditions.stalenessOf(element));
+			element.click();
 
 		}catch(NoSuchElementException e) {
 			System.out.println(e.getMessage());
@@ -42,13 +39,13 @@ public class SeleniumWrappers extends BaseTest {
 		
 	}
 	
-	public void sendKeys(By locator, String text) {
-		System.out.println("called method <sendKeys> on locator " + locator);
+	public void sendKeys(WebElement element, String text) {
+		System.err.println("called method <sendKeys> on locator ");
 		try {
 			//WebElement element = driver.findElement(locator);
-			waitForElementToBeVisible(locator);
-			returnWebElement(locator).clear();
-			returnWebElement(locator).sendKeys(text);
+			waitForElementToBeVisible(element);
+			element.clear();
+			element.sendKeys(text);
 			
 		}catch (Exception e) {
 			System.out.println(e.getMessage());	
@@ -57,20 +54,26 @@ public class SeleniumWrappers extends BaseTest {
 	}
 	
 	
-	public void waitForElementToBeVisible(By locator) {
-		System.out.println("Called method <waitForElementToBeVisible> on locator :" + locator);
+	public void waitForElementToBeVisible(WebElement element) {
+		System.out.println("Called method <waitForElementToBeVisible> on locator :");
 		try {
-			//WebElement element = driver.findElement(locator);
 			WebDriverWait wait =  new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.visibilityOf(returnWebElement(locator)));
+			wait.until(ExpectedConditions.visibilityOf(element));
 
 		}catch(NoSuchElementException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
+	
+	
 	public WebElement returnWebElement(By locator) {
 		return driver.findElement(locator);
+	}
+	
+	
+	public boolean checkElementIsDisplayed(WebElement element) {
+		return element.isDisplayed();
 	}
 	
 }
