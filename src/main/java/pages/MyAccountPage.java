@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,14 +26,15 @@ public class MyAccountPage extends SeleniumWrappers{
 	
 	@FindBy(css="div[class='woocommerce-MyAccount-content']")
 	public WebElement greetingsMessage;
+	
+	@FindBy(linkText = "Log out")
+	public WebElement logOutButton;
 
 	
 	public void loginInApp(String user, String pass) {
 		sendKeys(usernameField, user);
 		sendKeys(passwordField, pass);
 		click(signInButton);
-	}
-	
-	
+	}	
 	
 }
